@@ -13,8 +13,8 @@ from fastapi import Depends
 
 from time import sleep
 
-from models import Curso
-from models import cursos
+from secao03_p1.models import Curso
+from secao03_p1.models import cursos
 
 def fake_db():
     try:
@@ -54,8 +54,9 @@ async def get_curso(curso_id: int = Path(..., title='ID do curso', description='
          response_model=Curso)
 async def post_curso(curso: Curso, db: Any = Depends(fake_db)):
     next_id: int = len(cursos) + 1
-    cursos[next_id] = curso
-    del curso.id
+    curso.id = next_id
+    cursos.append(curso)
+    
     return curso
 
 @app.put('/cursos/{curso_id}')
@@ -89,7 +90,7 @@ async def calcular(a: int = Query(default=None, gt=5), b: int = Query(default=No
     
     return {"Resultado": soma}
 
-if __name__=='__main__':
+if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("secao03_p2.main:app", host="0.0.0.0", port=8000, reload=True)

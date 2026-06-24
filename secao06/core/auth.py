@@ -20,7 +20,7 @@ oauth2_schema = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/usuarios/login"
 )
 
-async def autenticar(email: str, senha: str, db: AsyncSession) -> Optional[UsuarioModal]:
+async def autenticar(email: str, senha: str, db: AsyncSession) -> Optional[UsuarioModel]:
     async with db as session:
         query = select(UsuarioModel).where(UsuarioModel.email == email)
         result = await session.execute(query)
